@@ -109,16 +109,21 @@ point translate(point p, vec v) { // transladar um ponto a partir de um vetor
     return point(p.x + v.x , p.y + v.y);
 }
 
+//produto escalar de 2 vetores
 double dot(vec a, vec b) {
     return (a.x * b.x + a.y * b.y);
 }
+
 double norm_sq(vec v) {
     return v.x * v.x + v.y * v.y;
 }
 
 
-double distToLine(point p, point a, point b, point &c) {
+double distToLine(point p, point a, point b) {
+	//p é o ponto a calcular a distancia
+	// a e b sao pontos da reta
     // formula: c = a + u * ab
+	point c; //variavel auxiliar
     vec ap = toVec(a, p), ab = toVec(a, b);
     double u = dot(ap, ab) / norm_sq(ab);
     c = translate(a, scale(ab, u)); // transladar a para c
