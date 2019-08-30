@@ -2,7 +2,7 @@ from itertools import product
 def floyd_warshall(n, edge):
 
     rn = range(n)
-    dist = [ [1000000] * n for i in rn]
+    dist = [ [float('inf')] * n for i in rn]
 
     for i in rn:
         dist[i][i] = 0
