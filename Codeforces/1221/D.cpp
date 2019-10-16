@@ -5,36 +5,40 @@
 
 using namespace std;
 
+
 int n;
 int a[MAX];
 int b[MAX];
-ll dp[3][MAX];
+ll dp[MAX][3];
 
-ll calc(int add, int pos){
+ll calc(int pos, int add){
+    
+    ll &res = dp[pos][add];
+    
+    if (res != -1)
+        return res;
+        
+    res = (ll)1e18 + 100;
 
-    if (pos == n) {
-        dp[add][pos] = 0
-        return dp[add][pos];
+    if(pos == n) 
+        return res = 0;
+        
+    for(ll i=0; i<3; i++){
+        // if we're at pos 0 or 
+        // if current pos + what we are adding now is different from last pos + what we added to it
+        if(pos == 0 || a[pos] + i != a[pos - 1] + add)
+            // we pass to the next state the next position and the added value to the current position
+            res = min(res, calc(pos + 1, i) + i * b[pos]);
     }
 
-    if (dp[add][pos] != -1){
-        return dp[add][pos];
-    }
-
-    dp[add][pos] = (ll)1e18 + 100;
-
-    for (int x = 0; x<3; x++){
-        if (pos == 0 || a[pos] + x != a[pos-1] + add){
-            dp[add][pos] = min(dp[add][pos], calc(x, pos+1) + x * b[pos]);
-
-            
-        }
-    }
-    return dp[add][pos];
-
+    return res;
 }
 
+
 int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
     int t;
     cin >> t;
     
@@ -45,10 +49,11 @@ int main(){
             cin >> b[i];
         }
 
-        for(int i=0; i<= n; i++){
-            dp[0][i] = dp[1][i] = dp[2][i] = -1;
+        for(int i=0; i <= n; i++){
+            dp[i][0] = dp[i][1] = dp[i][2] = -1;
         }
-        cout << calc(0,0) << endl;
+        
+        cout << calc(0,0) << "\n";
     }
     return 0;
 }
