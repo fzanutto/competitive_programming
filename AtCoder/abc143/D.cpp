@@ -24,22 +24,11 @@ int main(){
         for(int j=i+1; j<n; j++){
             int a = s[i];
             int b = s[j];
+
+            // look for lowest index that does not satisfies c < a+b
+            auto x = lower_bound(s.begin(), s.end(), a+b);
             
-            int l = j;
-            int r = n;
-            while(l < r){
-                int mid = (l+r+1)/2;
-                //cout << mid << endl;
-                if(s[mid] < a+b){
-                    l = mid;
-                } else {
-                    r = mid - 1;
-                }
-            }
-            if(l < n && s[l] < a+b)
-                l++;
-                
-            res -= n-l;
+            res -= s.end()-x;
         }
     }
     
