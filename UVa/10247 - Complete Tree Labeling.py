@@ -1,8 +1,3 @@
-# Alunos: Fernando Zanutto e Guilherme Santana
-# ID user UVa: 1046965
-# ID submission: 23991425
-
-
 from math import factorial
 def n(k,d):
 

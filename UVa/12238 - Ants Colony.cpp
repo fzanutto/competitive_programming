@@ -112,45 +112,6 @@ int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(0);
 
-/*
-    memset(parent, -1, sizeof(parent));
-    memset(depth, 0, sizeof(depth));
-
-    n = 8+1;
-
-    map<int, int> folhas;
-
-    int nodos[][3] = {
-        {2,1,7},
-        {3,1,9},
-        {4,5,2},
-        {1,0,8},
-        {0,4,3},
-        {4,6,1},
-        {5,7,4},
-    };
-    for(auto a : nodos){
-        addEdge(a[0]+1,a[1]+1,a[2]);
-        folhas[a[0]+1] += 1;
-        folhas[a[1]+1] += 1;
-    }
-
-    //precisa começar o dfs por uma folha
-    int j;
-    for(j=0; j<n; j++){
-        if(folhas[j] == 1){
-            break;
-        }
-    }
-
-    dfs(tree[j][0],j);
-    precomputeSparseMatrix(n);
-
-    imp_pais();
-    pair<int, long long> res = lca(6,4);
-    cout << res.first << " " << res.second << endl;
-*/
-
     while(cin >> n, n) {
 
         for(int i=0; i<n+1; i++){
