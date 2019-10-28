@@ -9,9 +9,11 @@ def toposort(grafo, nodo, stack, visitados):
 
 
 def longestPath(n, grafo, inicios):
-    stack = []
+    
     visitados = {i:False for i in grafo}
     dist = [-float('inf')] * (n+1)
+    stack = []
+    
     
     for i in grafo:
        if visitados[i] == False:
@@ -35,9 +37,10 @@ n,m = [int(i) for i in input().split()]
 grafo = {i:{} for i in range(1,n+1)}
 inicios = [True for i in range(n+1)]
 inicios[0] = False
+
 for i in range(m):
     a,b,c = [int(x) for x in input().split()]
-    grafo[a][b] = max(c, grafo[a].get(b, 0)) #para mais de um caminho entre 2 nodos
+    grafo[a][b] = max(c, grafo[a].get(b, 0)) # para mais de um caminho entre 2 nodos
     inicios[b] = 0
 
 print(longestPath(n, grafo, inicios))

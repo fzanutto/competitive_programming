@@ -1,28 +1,24 @@
 #top-down
-def mochila_01(indices, espaco_restante): #quant de coisas / espaço da mochila
+def mochila_01(indice, espaco_restante): #quant de coisas / espaço da mochila
         
-    if not indices or espaco_restante == 0:
+    if indice == 0 or espaco_restante == 0:
         return 0
-        
-    i = indices[0]
 
-    temp = memo[espaco_restante][len(indices)-1]
+    temp = memo[espaco_restante][indice]
+    
     if temp != -1:
         return temp
+    
+    res = mochila(indice + 1, espaco_restante)
 
-    if pesos[i] > espaco_restante:
-        res = mochila(indices[1:], espaco_restante)
-        memo[espaco_restante][len(indices)-1] = res
-        return res
-
-    else:
-        contando = valores[i] + mochila(indices[1:], espaco_restante-pesos[i])
-        ignorando = mochila(indices[1:], espaco_restante)
+    if espaco_restante >= pesos[indice]:
+        contando = valores[indice] + mochila(indice + 1, espaco_restante - pesos[indice])
         
-        res = max(ignorando, contando)
-        memo[espaco_restante][len(indices)-1] = res
+        res = max(res, contando)
+    
+    memo[espaco_restante][indice] = res
         
-        return res
+    return res
 
 #bottom-up
 def mochila(pesos, valores, custo_maximo):

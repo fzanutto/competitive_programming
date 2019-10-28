@@ -1,116 +1,75 @@
 #include <bits/stdc++.h>
 
+#define MAX 100005
 #define NINF INT_MIN
-
 using namespace std;
 
-// Graph is represented using adjacency list. Every
-// node of adjacency list contains vertex number of
-// the vertex to which edge connects. It also
-// contains weight of the edge
-class AdjListNode {
-    int v;
-    int weight;
+bitset<MAX> inicios, visitado;
 
-public:
-    AdjListNode(int _v, int _w) {
-        v = _v;
-        weight = _w;
+map<int, int> grafo[MAX];
+stack<int> pilha;
+int dist[MAX];
+
+void toposort(int nodo){
+    visitado[nodo] = 1;
+    
+    for(auto u: grafo[nodo]){
+        if (visitado[u.first] == 0)
+            toposort(u.first);
+    
     }
-    int getV() {
-        return v;
+    
+    pilha.push(nodo);
+}
+
+
+int longestPath(int n){
+
+    for(int v=1; v<=n; v++){
+        if(visitado[v] == 0)
+            toposort(v);
+            
+        if(inicios[v] == 1)
+            dist[v] = 0;
     }
-    int getWeight() {
-        return weight;
-    }
-};
-
-class Graph {
-    int V;
-    list<AdjListNode>* adj;
-
-public:
-    Graph(int V){
-        this->V = V;
-        adj = new list<AdjListNode>[V];
-    }
-
-    void addEdge(int u, int v, int weight){
-        AdjListNode node(v, weight);
-        adj[u].push_back(node);
-    }
-
-    void topologicalSort(int v, bool visited[], stack<int> &Stack) {
-        visited[v] = true;
-
-        list<AdjListNode>::iterator i;
-        for (i = adj[v].begin(); i != adj[v].end(); ++i) {
-            AdjListNode node = *i;
-            if (!visited[node.getV()])
-                topologicalSort(node.getV(), visited, Stack);
+    
+    while(!pilha.empty()){
+        int u = pilha.top();
+        pilha.pop();
+        
+        for(auto v: grafo[u]){
+            dist[v.first] = max(dist[u] + grafo[u][v.first], dist[v.first]);
+            
         }
-        Stack.push(v);
     }
-
-    int longestPath(int sources[]){
-        stack<int> Stack;
-        int dist[V] = {};
-
-        bool* visited = new bool[V];
-        for (int i = 0; i < V; i++)
-            visited[i] = false;
-
-        // Toposort
-        for (int i = 0; i < V; i++)
-            if (visited[i] == false)
-                topologicalSort(i, visited, Stack);
-
-        // Initialize distances to all vertices as infinite and
-        // distance to sources as 0
-        for (int i = 0; i < V; i++){
-            if(!sources[i]){
-                dist[i] = NINF;
-            }
-        }
-
-        // Process vertices in topological order
-        while (Stack.empty() == false) {
-            int u = Stack.top();
-            Stack.pop();
-
-            list<AdjListNode>::iterator i;
-            if (dist[u] != NINF) {
-                for (i = adj[u].begin(); i != adj[u].end(); ++i)
-                    dist[i->getV()] = max(dist[u] + i->getWeight(), dist[i->getV()]);
-            }
-        }
-
-        return *(max_element(dist, dist+V));
-
+    
+    int m = 0;
+    for(int a: dist){
+        m = max(m, a);
     }
-};
+    return m;
+}
 
-int main() {
 
+int main(){
+    
     int n,m;
-
+    
+    inicios.set();
+    visitado.reset();
+    
     cin >> n >> m;
-
-    Graph g(n+1);
-    int sources[n+1];
-
-    for(int i=1; i<=n; i++){
-        sources[i] = 1;
+    
+    for(int i=0; i<n; i++)
+        dist[i] = NINF;
+    
+    for (int i=0; i<m; i++){
+        int a,b;
+        cin >> a >> b;
+        grafo[a][b] = 1;
+        inicios[b] = 0;
     }
+    
+    cout << longestPath(n) << endl;
 
-    while(m--){
-        int a,b,c;
-        cin >> a >> b >> c;
-        g.addEdge(a,b,c);
-        sources[b] = 0;
-    }
-
-    cout << g.longestPath(sources) << endl;
-
-    return 0;
 }
