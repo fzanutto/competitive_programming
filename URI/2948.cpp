@@ -9,10 +9,6 @@ struct point{
     double x, y;
     point() {x=y=0.0;}
     point(double _x, double _y) : x(_x), y(_y) {}
-    double norm(){ return hypot(x,y); }
-    point normalized(){
-        return point(x,y)*(1.0/norm());
-    }
     
     point operator *(double k) const{
         return  point(x*k, y*k);
@@ -56,15 +52,6 @@ struct circle {
     }
     
     bool contains(point p ) { return dist(c,p) <= r+EPS; }
-    
-    pair<point, point> gettangentPoint(point p ){
-        double d1 = dist(p,c), theta = asin(r/d1);
-        point p1 = rotate(c-p, -theta);
-        point p2 = rotate(c-p, theta);
-        p1 = p1*(sqrt(d1*d1-r*r)/d1)+p;
-        p2 = p2*(sqrt(d1*d1-r*r)/d1)+p;
-        return {p1,p2};
-    }
 };
 
 
@@ -78,7 +65,6 @@ circle circumcircle(point a, point b, point c){
     ans.r = dist(ans.c, a);
     
     return ans;
-
 }
 
 
@@ -107,14 +93,15 @@ circle minimunCircle(vector<point> p ){
 int main(){
     int n;
     
-    cin >> n;
+    scanf("%d", &n);
+    
     vector<point> pontos;
     
-    for(int i=0; i< n; i++){
+    for(int i=0; i < n; i++){
 
         double a,b;
-
-        cin >> a >> b;
+        
+        scanf("%lf %lf", &a, &b);
 
         pontos.push_back(point(a,b));
     }
