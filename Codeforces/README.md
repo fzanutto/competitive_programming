@@ -1,4 +1,4 @@
-Some nice problems for various reason (fun or interesting to understand some topic)
+Some nice problems (fun or interesting to understand some topic)
 
 
 Segment Tree:
