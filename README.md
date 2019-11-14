@@ -1,4 +1,4 @@
-# My solutions to Online Judge problems and some algorithms for competitive programming
+## My solutions to some Online Judges problems (and some algorithms I use for competitive programming)
 
 
 
