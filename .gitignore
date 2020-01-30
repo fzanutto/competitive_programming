@@ -1,7 +1,10 @@
-
+*
+!*/
+!*.*
 *.o
 *.exe
 *.in
 *.out
 .idea/*
 Hightail/*
+*.pdf
