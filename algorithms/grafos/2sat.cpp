@@ -36,6 +36,8 @@ void dfs2(int v, int cl) {
 
 bool solve() {
     used.assign(n+1, false);
+    order.clear();
+    
     for (int i = 0; i < n; ++i) {
         if (!used[i])
             dfs1(i);
