@@ -7,10 +7,10 @@ int r;
 
 int check(int tot, int n){
     //cout << "N: " << n << endl;
-    int cont = 0;    
+    int cont = 0;
     for(int a: monstros){
         //cout << "m: " << a << " " << r*n << endl;
-        if (cont == tot-n) 
+        if (cont == tot-n)
             return true;
         
         if (a-r*n > 0)

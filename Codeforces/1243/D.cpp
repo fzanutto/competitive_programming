@@ -1,108 +1,66 @@
+/*
+Just need to discover the number of connected components using only the 0-weighted vertices. 
+If we have k connected components, then we need k-1 1-weight to make the MST
+*/
+
 #include <bits/stdc++.h>
  
 using namespace std;
  
-#define ll long long
-#define MAXN 100002
-#define ii pair<int,int>
- 
-vector<pair<int, ii>> edgeList;
-int N,M;
-map<int, map<int,int>> teste;
-class UnionFind {
- 
-public:
-    vector<int> parent, rank;
-    
-    UnionFind(int N){}
-    
-    void init(int N){
-        rank.assign(N+1, 0);
-        parent.assign(N+1, 0);
-        for(int i=0; i<= N; i++) parent[i] = i;
-    }
-    
-    int find(int i){
-        while(i != parent[i]){
-            i = parent[i];
-        }
-        return i;
-    }
-    
-    bool isSameSet(int i, int j){
-        return find(i) == find(j);
-    }
-    
-    void unionSet(int i, int j){
-        if(isSameSet(i,j)) return;
-        
-        int x = find(i), y = find(j);
-        
-        if(rank[x] > rank[y]) parent[y] = x;
-        else {
-            parent[x] = y;
-            if(rank[x] == rank[y]) rank[y]++;
-        }
-    }
-};
+set<pair<int,int>> edges;
+set<int> vertices;
 
-UnionFind UF(0);
- 
-ll kruskal(){
- 
-    int cost = 0;
-    UF.init(N);
-    
-    for(int i=1; i<=N; i++)
-        for(int j=i+1; j<=N; j++)
-            if(teste[i][j] != 1){
-                int x = UF.find(i), y = UF.find(j);
-                if(x != y){
-                    UF.unionSet(i, j);
-                }
-            }
-    
+void dfs(int v){
 
-    for(auto a: teste){
-        for(auto edge: a.second){
-            int p = a.first;
-            int s = edge.first;
-            //cout << "testando aresta " << edge.second.first << endl;
-            int x = UF.find(p), y = UF.find(s);
+    vector<int> a;
+    vertices.erase(v);
+    
+    for(int u: vertices){
             
-            if(x != y){
-                cost += 1;
-                UF.unionSet(p, s);
-            }
+        if(edges.count({v,u}) == 0){
+            a.push_back(u);
         }
     }
-    return cost;
+    
+    for(int u: a)
+        vertices.erase(u);
+    
+    for(int u: a)
+        dfs(u);
 }
- 
+
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    int n, m;
- 
-    cin >> n >> m;
- 
-    N = n;
-    M = m;
     
-    for(int i=0; i<m;i++){
+    int n,m;
+    
+    cin >> n >> m;
+    
+    for(int i=0; i<m; i++){
         int x,y;
+        
         cin >> x >> y;
         
-        if(x > y)
-            swap(x,y);
-            
-        teste[x][y] = 1;
+        edges.insert({x,y});
+        edges.insert({y,x});
     }
- 
-    int res = kruskal();
     
-    cout << res << endl;
+    for(int i=1; i<=n; i++)
+        vertices.insert(i);
+
+    int ans = 0;
+    
+    for(int i=1; i<=n; i++){
+        if(vertices.count(i))
+            ans++, dfs(i);   
+    }
+    
+    cout << ans-1 << endl;
+    
+    return 0;
     
 }
+

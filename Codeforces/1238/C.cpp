@@ -6,8 +6,6 @@ int main(){
 
     int testes,h,n;
     
-    
-    
     cin >> testes;
     
     while(testes--){

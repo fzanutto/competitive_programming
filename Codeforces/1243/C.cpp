@@ -28,21 +28,26 @@ int main(){
     
     cin >> a;
     long long b = a;
-    int res = 1;
+    int res = 0;
     sieve();
+    
+    vector<long long> div;
     
     for(int p:v){
         
-        if(p!=b && a % p == 0){
+        if(a % p == 0){
             res++;
+            div.push_back(p);
             while(a % p == 0) a = a/p;
         }
     }
-
     
-    if(res == 1)
-        cout << b << endl;
+    if(a>1)
+        div.push_back(b);
+    
+    if(div.size()==1)
+        cout << div[0] << endl;
     else
-        cout << res << endl;
+        cout << 1 << endl;
 
 }
